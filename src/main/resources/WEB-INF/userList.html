@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>List of Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div th:replace="menu.html"></div>
+<!--/*@thymesVar id="users" type="com.kravchuk.SpringSecurityPractice.service."*/-->
+<div th:switch="${users}">
+    <h2 th:case="null">No users yet!</h2>
+    <div th:case="*">
+        <h2>List of users</h2>
+        <table>
+            <thead>
+            <tr>
+                <th style="width: 150px;">ID</th>
+                <th style="width: 150px;">First Name</th>
+                <th style="width: 150px;">Last Name</th>
+                <th style="width: 150px;">Age</th>
+                <th style="width: 150px;">Email</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <!--/*@thymesVar id="email" type="com.kravchuk.SpringSecurityPractice.domain.User"*/-->
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.LastName}"></td>
+                <td th:text="${user.age}"></td>
+                <td th:text="${user.email}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

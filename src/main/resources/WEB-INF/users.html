@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <title>List of Users</title>
+</head>
+<body>
+<table border="1px">
+    <tr>
+        <td>ID</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Username</td>
+        <td>Password</td>
+        <td>Role</td>
+        <td>DELETE</td>
+        <td>Change ROLE</td>
+        <td>Change ROLE</td>
+    </tr>
+    <!--/*@thymesVar id="users" type="com.kravchuk.SpringSecurityPractice.domain.User"*/-->
+    <th:block th:each="user : ${users}">
+        <tr>
+            <td th:utext="${user.id()}"></td>
+            <td th:utext="${user.firstName()}"></td>
+            <td th:utext="${user.lastName()}"></td>
+            <td th:utext="${user.username()}"></td>
+            <td th:utext="${user.password()}"></td>
+            <td th:utext="${user.userRole()}"></td>
+            <td>
+                <button type="button" th:onclick="'deleteUser(' + ${user.getId()} + ');'"> Delete</button>
+            </td>
+            <td>
+                <button type="button" th:onclick="'changeUserRoleToAdmin(' + ${user.getId()} + ');'">To ADMIN</button>
+            </td>
+            <td>
+                <button type="button" th:onclick="'changeUserRoleToUser(' + ${user.getId()} + ');'">To USER</button>
+            </td>
+        </tr>
+    </th:block>
+</table>
+
+<script>
+    function deleteUser(id) {
+        $.ajax({
+            url: "/user/" + id,
+            type: "DELETE",
+            success: ()  => {
+                location.reload();
+            },
+            error: (err) => {
+                console.log(err)
+            }
+        });
+    }
+
+    function changeUserRoleToAdmin(id) {
+        $.ajax({
+            url: "/change_user_role_admin/" + id,
+            type: "POST",
+            success: ()  => {
+                location.reload();
+            },
+            error: (err) => {
+                console.log(err)
+            }
+        });
+    }
+
+    function changeUserRoleToUser(id) {
+        $.ajax({
+            url: "/change_user_role_user/" + id,
+            type: "POST",
+            success: ()  => {
+                location.reload();
+            },
+            error: (err) => {
+                console.log(err)
+            }
+        });
+    }
+</script>
+</body>
+</html>
